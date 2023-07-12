@@ -57,7 +57,14 @@ const PokemonByTagName: NextPage<Props> = ({ pokemon }) => {
         <Grid xs={12} sm={8}>
           <Card>
             <Card.Header
-              css={{ display: "flex", justifyContent: "space-between" }}
+              css={{
+                display: "flex",
+                flexDirection: "column",
+                "@xs": {
+                  flexDirection: "row",
+                },
+                justifyContent: "space-between",
+              }}
             >
               <Text h1 transform="capitalize">
                 {pokemon.name}
@@ -116,16 +123,23 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
         name: pokemon.name,
       },
     })),
-    fallback: false,
+    fallback: "blocking",
   };
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx;
   const { name } = params as { name: string };
+  const pokemon: PokemonMin | null = await getPokemon(name);
+
+  if (!pokemon) {
+    return {
+      redirect: { destination: "/", permanent: false },
+    };
+  }
 
   return {
-    props: { pokemon: await getPokemon(name) },
+    props: { pokemon },
   };
 };
 
