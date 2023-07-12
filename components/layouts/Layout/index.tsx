@@ -21,7 +21,10 @@ export const Layout: FC<LayoutProps> = (props) => {
           property="og:description"
           content={`Esta es la pagina sobre ${title}`}
         />
-        <meta property="og:image" content="PENDING" />
+        <meta
+          property="og:image"
+          content="https://next-pokemon-kohl-pi.vercel.app/img/banner.png"
+        />
       </Head>
       <Navbar />
       <main style={{ padding: "0 20px" }}>{children}</main>
